@@ -51,10 +51,22 @@ static void * const keypath = (void*)&keypath;
     
 }
 
-- (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType dismissed:(void(^)(void))dismissed
+- (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType
+                      dismissed:(void(^)(void))dismissed
 {
     self.mj_popupViewController = popupViewController;
-    [self presentPopupView:popupViewController.view animationType:animationType dismissed:dismissed];
+    [self presentPopupView:popupViewController.view animationType:animationType dismissOnTap:NO dismissed:dismissed];
+}
+
+- (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType dismissOnTap:(BOOL)hasTapDismiss
+{
+    [self presentPopupViewController:popupViewController animationType:animationType dismissed:nil];
+}
+
+- (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType dismissOnTap:(BOOL)hasTapDismiss dismissed:(void(^)(void))dismissed
+{
+    self.mj_popupViewController = popupViewController;
+    [self presentPopupView:popupViewController.view animationType:animationType dismissOnTap:hasTapDismiss dismissed:dismissed];
 }
 
 - (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType
@@ -94,11 +106,11 @@ static void * const keypath = (void*)&keypath;
 
 - (void)presentPopupView:(UIView*)popupView animationType:(MJPopupViewAnimation)animationType
 {
-    [self presentPopupView:popupView animationType:animationType dismissed:nil];
+    [self presentPopupView:popupView animationType:animationType dismissOnTap:NO dismissed:nil];
 }
 
-- (void)presentPopupView:(UIView*)popupView animationType:(MJPopupViewAnimation)animationType dismissed:(void(^)(void))dismissed
-{
+- (void)presentPopupView:(UIView*)popupView animationType:(MJPopupViewAnimation)animationType dismissOnTap:(BOOL)hasTapDismiss dismissed:(void(^)(void))dismissed
+{   
     UIView *sourceView = [self topView];
     sourceView.tag = kMJSourceViewTag;
     popupView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -134,7 +146,7 @@ static void * const keypath = (void*)&keypath;
     dismissButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     dismissButton.backgroundColor = [UIColor clearColor];
     dismissButton.frame = sourceView.bounds;
-    dismissButton.userInteractionEnabled = self.dismissOnBackgroundClick;
+    dismissButton.userInteractionEnabled = hasTapDismiss;
     [overlayView addSubview:dismissButton];
     
     popupView.alpha = 0.0f;
