@@ -134,6 +134,7 @@ static void * const keypath = (void*)&keypath;
     dismissButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     dismissButton.backgroundColor = [UIColor clearColor];
     dismissButton.frame = sourceView.bounds;
+    dismissButton.userInteractionEnabled = self.dismissOnBackgroundClick;
     [overlayView addSubview:dismissButton];
     
     popupView.alpha = 0.0f;

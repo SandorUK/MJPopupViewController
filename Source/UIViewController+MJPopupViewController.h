@@ -24,6 +24,7 @@ typedef enum {
 
 @interface UIViewController (MJPopupViewController)
 
+@property (nonatomic, readwrite) BOOL dismissOnBackgroundClick;
 @property (nonatomic, retain) UIViewController *mj_popupViewController;
 @property (nonatomic, retain) MJPopupBackgroundView *mj_popupBackgroundView;
 
