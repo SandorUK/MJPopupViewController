@@ -58,9 +58,10 @@ static void * const keypath = (void*)&keypath;
     [self presentPopupView:popupViewController.view animationType:animationType dismissOnTap:NO dismissed:dismissed];
 }
 
-- (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType dismissOnTap:(BOOL)hasTapDismiss
-{
-    [self presentPopupViewController:popupViewController animationType:animationType dismissed:nil];
+- (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType dismissOnTap:(BOOL)hasTapDismiss{
+    
+    self.mj_popupViewController = popupViewController;
+    [self presentPopupView:popupViewController.view animationType:animationType dismissOnTap:hasTapDismiss dismissed:nil];
 }
 
 - (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType dismissOnTap:(BOOL)hasTapDismiss dismissed:(void(^)(void))dismissed
